@@ -1,6 +1,9 @@
 package Utilities;
 
 public class Utility {
+    public static String RESET = "\u001B[0m";
+    public static String YELLOW = "\u001B[33m";
+
     public static String createName(Integer level, String item, String subStat, Double subStatValue) {
         StringBuilder name = new StringBuilder();
         if (level >= 16)
@@ -20,7 +23,4 @@ public class Utility {
 
         return name.toString();
     }
-
-    public static String RESET = "\u001B[0m";
-    public static String YELLOW = "\u001B[33m";
 }

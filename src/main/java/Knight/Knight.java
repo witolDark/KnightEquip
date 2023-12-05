@@ -1,9 +1,10 @@
 package Knight;
 
-import Utilities.MyLogger;
 import Inventory.*;
 import Utilities.AllSubStats;
+import Utilities.MyLogger;
 
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,13 +17,32 @@ public class Knight {
     private Integer elementalMastery;
     private Double energyRecharge;
     private Double critDamage;
+    private Double critRate;
+    private Helmet helmet;
+    private Cloak cloak;
+    private Shoulder shoulder;
+    private Boots boots;
+    private Weapon weapon;
 
-    public Double critRate;
-    public Helmet helmet;
-    public Cloak cloak;
-    public Shoulder shoulder;
-    public Boots boots;
-    public Weapon weapon;
+    public Helmet getHelmet() {
+        return helmet;
+    }
+
+    public Cloak getCloak() {
+        return cloak;
+    }
+
+    public Shoulder getShoulder() {
+        return shoulder;
+    }
+
+    public Boots getBoots() {
+        return boots;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
 
     public <T> void setEquip(T equip) {
         if (equip instanceof Weapon) {
@@ -47,6 +67,7 @@ public class Knight {
         else if (equip instanceof Boots) {
             boots = (Boots) equip;
             changeStats(AllSubStats.Attack, boots.getSubStatValue());
+            additionalDamage += (int) Math.round(boots.getDamage());
         }
         else {
             LOGGER.log(Level.WARNING, "Помилка у виборі екіпірування " + equip);
@@ -82,7 +103,6 @@ public class Knight {
         critDamage = 100.0;
         critRate = 50.0;
         additionalDamage = 0;
-
         helmet = null;
         cloak = null;
         shoulder = null;
@@ -107,5 +127,18 @@ public class Knight {
         System.out.print("Відн. енергії     \t");
         System.out.println(energyRecharge + "%");
         LOGGER.log(Level.INFO, "Виведено характеристики лицаря");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Knight)) return false;
+        Knight knight = (Knight) o;
+        return Objects.equals(baseHp, knight.baseHp) && Objects.equals(baseDamage, knight.baseDamage) && Objects.equals(additionalDamage, knight.additionalDamage) && Objects.equals(baseArmour, knight.baseArmour) && Objects.equals(elementalMastery, knight.elementalMastery) && Objects.equals(energyRecharge, knight.energyRecharge) && Objects.equals(critDamage, knight.critDamage) && Objects.equals(critRate, knight.critRate) && Objects.equals(helmet, knight.helmet) && Objects.equals(cloak, knight.cloak) && Objects.equals(shoulder, knight.shoulder) && Objects.equals(boots, knight.boots) && Objects.equals(weapon, knight.weapon);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseHp, baseDamage, additionalDamage, baseArmour, elementalMastery, energyRecharge, critDamage, critRate, helmet, cloak, shoulder, boots, weapon);
     }
 }

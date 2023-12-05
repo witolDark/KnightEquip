@@ -1,9 +1,10 @@
-import Utilities.MyLogger;
-import Knight.Knight;
 import Knight.Inventory;
+import Knight.Knight;
 import UserInterface.GUI;
-import java.util.logging.Logger;
+import Utilities.MyLogger;
+
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {

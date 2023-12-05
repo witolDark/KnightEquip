@@ -2,26 +2,15 @@ package Inventory;
 
 import Utilities.Utility;
 
+import java.util.Objects;
+
 public class Cloak extends Item {
-    public enum CloakSubStats {
-        Attack,
-        EnergyRecharge,
-        ElementalMastery,
-    }
     private final CloakSubStats cloakSubStat;
-
-    public CloakSubStats getSubStat() {
-        return cloakSubStat;
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
 
     private Cloak(Integer level, CloakSubStats subStat) {
         this.level = level;
         this.cloakSubStat = subStat;
+        this.price = level * 10.45;
 
         switch (subStat) {
             case Attack:
@@ -42,5 +31,33 @@ public class Cloak extends Item {
         int level = (int) (Math.random() * 20 + 1);
         CloakSubStats SubStat = CloakSubStats.values()[(int) (Math.random() * 3)];
         return new Cloak(level, SubStat);
+    }
+
+    public CloakSubStats getSubStat() {
+        return cloakSubStat;
+    }
+
+    @Override
+    public String toString() {
+        return name + " : " + price + " gold";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cloak)) return false;
+        Cloak cloak = (Cloak) o;
+        return Objects.equals(name, cloak.name) && Objects.equals(level, cloak.level) && Objects.equals(subStatValue, cloak.subStatValue) && cloakSubStat == cloak.cloakSubStat;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, level, subStatValue, cloakSubStat);
+    }
+
+    public enum CloakSubStats {
+        Attack,
+        EnergyRecharge,
+        ElementalMastery,
     }
 }

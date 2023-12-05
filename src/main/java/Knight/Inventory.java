@@ -14,11 +14,16 @@ import java.util.logging.Logger;
 public class Inventory {
     private final Logger LOGGER = MyLogger.LOGGER;
     Knight knight;
-    ArrayList<Helmet> helmets = new ArrayList<>() {};
-    ArrayList<Cloak> cloaks = new ArrayList<>() {};
-    ArrayList<Shoulder> shoulders = new ArrayList<>() {};
-    ArrayList<Boots> boots = new ArrayList<>() {};
-    ArrayList<Weapon> weapons = new ArrayList<>() {};
+    ArrayList<Helmet> helmets = new ArrayList<>() {
+    };
+    ArrayList<Cloak> cloaks = new ArrayList<>() {
+    };
+    ArrayList<Shoulder> shoulders = new ArrayList<>() {
+    };
+    ArrayList<Boots> boots = new ArrayList<>() {
+    };
+    ArrayList<Weapon> weapons = new ArrayList<>() {
+    };
 
     public Inventory(Knight knight) {
         this.knight = knight;
@@ -76,31 +81,8 @@ public class Inventory {
         sortInventory();
     }
 
-    public void showEquipment(Scanner scanner) {
-        if (knight.helmet != null)
-            System.out.println("Helmet:   " + knight.helmet.getName() + " :" + (knight.helmet.getLevel() * 12.45) + " gold");
-        else {
-            System.out.println("No HELMET equipped yet");
-            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючий шолом");
-        }
-        if (knight.cloak != null)
-            System.out.println("Cloak:    " + knight.cloak.getName() + " :" + (knight.cloak.getLevel() * 10.65) + " gold");
-        else {
-            System.out.println("No CLOAK equipped yet");
-            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючий плащ");
-        }
-        if (knight.shoulder != null)
-            System.out.println("Shoulder: " + knight.shoulder.getName() + " :" + (knight.shoulder.getLevel() * 15.45) + " gold");
-        else {
-            System.out.println("No SHOULDER equipped yet");
-            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючий наплічник");
-        }
-        if (knight.boots != null)
-            System.out.println("Boots:    " + knight.boots.getName() + " :" + (knight.boots.getLevel() * 10.65) + " gold");
-        else {
-            System.out.println("No BOOTS equipped yet");
-            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючі чоботи");
-        }
+    public void showChangeEquipment(Scanner scanner) {
+        showEquipment();
 
         System.out.println("[1] Replace Helmet");
         System.out.println("[2] Replace Cloak");
@@ -132,8 +114,35 @@ public class Inventory {
         }
     }
 
+    public void showEquipment() {
+        if (knight.getHelmet() != null)
+            System.out.println("Helmet:   " + knight.getHelmet());
+        else {
+            System.out.println("No HELMET equipped yet");
+            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючий шолом");
+        }
+        if (knight.getCloak() != null)
+            System.out.println("Cloak:    " + knight.getCloak());
+        else {
+            System.out.println("No CLOAK equipped yet");
+            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючий плащ");
+        }
+        if (knight.getShoulder() != null)
+            System.out.println("Shoulder: " + knight.getShoulder());
+        else {
+            System.out.println("No SHOULDER equipped yet");
+            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючий наплічник");
+        }
+        if (knight.getBoots() != null)
+            System.out.println("Boots:    " + knight.getBoots());
+        else {
+            System.out.println("No BOOTS equipped yet");
+            LOGGER.log(Level.WARNING, "Спроба вивести неіснуючі чоботи");
+        }
+    }
+
     public void showWeapon(Scanner scanner) {
-        System.out.println(knight.weapon);
+        System.out.println(knight.getWeapon());
         System.out.println("[1] Replace, [Other] Back");
         String choice = scanner.nextLine();
         LOGGER.log(Level.INFO, MessageFormat.format("В методі вибору зброї користувач натиснув {0}", choice));
@@ -151,10 +160,10 @@ public class Inventory {
         LOGGER.log(Level.INFO, "Обирається предмет" + items.get(0).getClass());
 
         for (int i = 0; i < items.size(); i++) {
-            System.out.println("[" + (i+1) + "] " + items.get(i));
+            System.out.println("[" + (i + 1) + "] " + items.get(i));
         }
 
-        while(true) {
+        while (true) {
 
             int choose = 0;
             try {
@@ -180,19 +189,19 @@ public class Inventory {
 
     public void showInventory() {
         System.out.println("Weapons:");
-        for(Weapon weapon: weapons)
+        for (Weapon weapon : weapons)
             System.out.println(weapon);
         System.out.println("Helmets:");
-        for(Helmet helmet: helmets)
+        for (Helmet helmet : helmets)
             System.out.println(helmet);
         System.out.println("Cloaks:");
-        for(Cloak cloak: cloaks)
+        for (Cloak cloak : cloaks)
             System.out.println(cloak);
         System.out.println("Shoulders");
-        for(Shoulder shoulder: shoulders)
+        for (Shoulder shoulder : shoulders)
             System.out.println(shoulder);
         System.out.println("Boots:");
-        for(Boots boots: boots)
+        for (Boots boots : boots)
             System.out.println(boots);
     }
 

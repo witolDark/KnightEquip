@@ -2,33 +2,16 @@ package Inventory;
 
 import Utilities.Utility;
 
-public class Shoulder extends Item {
-    public enum ShoulderSubStats {
-        Attack,
-        ElementalMastery,
-        CritRate,
-        CritDmg
-    }
+import java.util.Objects;
 
+public class Shoulder extends Item {
     private final ShoulderSubStats shoulderSubStat;
     private final Integer armour;
-    public Integer getArmour() {
-        return armour;
-    }
-
-    public ShoulderSubStats getSubStat() {
-        return shoulderSubStat;
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
-
     private Shoulder(Integer level, ShoulderSubStats subStat) {
         this.level = level;
         this.armour = level;
         this.shoulderSubStat = subStat;
+        this.price = level * 15.45;
 
         switch (subStat) {
             case Attack:
@@ -52,5 +35,38 @@ public class Shoulder extends Item {
         int level = (int) (Math.random() * 20 + 1);
         ShoulderSubStats SubStat = ShoulderSubStats.values()[(int) (Math.random() * 4)];
         return new Shoulder(level, SubStat);
+    }
+
+    public Integer getArmour() {
+        return armour;
+    }
+
+    public ShoulderSubStats getSubStat() {
+        return shoulderSubStat;
+    }
+
+    @Override
+    public String toString() {
+        return name + " : " + price + " gold";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Shoulder)) return false;
+        Shoulder shoulder = (Shoulder) o;
+        return Objects.equals(name, shoulder.name) && Objects.equals(level, shoulder.level) && Objects.equals(subStatValue, shoulder.subStatValue) && shoulderSubStat == shoulder.shoulderSubStat && Objects.equals(armour, shoulder.armour);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, level, subStatValue, shoulderSubStat, armour);
+    }
+
+    public enum ShoulderSubStats {
+        Attack,
+        ElementalMastery,
+        CritRate,
+        CritDmg
     }
 }
