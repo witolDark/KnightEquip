@@ -1,5 +1,6 @@
 package UserInterface;
 
+import Commands.*;
 import Knight.Inventory;
 import Knight.Knight;
 import Utilities.MyLogger;
@@ -14,58 +15,82 @@ public class GUI {
     private final Logger LOGGER = MyLogger.LOGGER;
     Knight knight;
     Inventory inventory;
+    private final Invoker invoker;
+    Scanner scanner;
+
 
     public GUI(Knight knight, Inventory inventory) {
         this.knight = knight;
         this.inventory = inventory;
+
+        scanner = new Scanner(System.in);
+
+        ICommand showDetailsCommand = new ShowDetailsCommand(knight);
+        ICommand showChangeWeaponCommand = new ShowChangeWeaponCommand(inventory);
+        ICommand showChangeEquipmentCommand = new ShowChangeEquipmentCommand(inventory);
+        ICommand showInventoryCommand = new ShowInventoryCommand(inventory);
+        ICommand rollItemsCommand = new RollItemsCommand(inventory);
+
+        invoker = new Invoker();
+        invoker.setShowDetailsCommand(showDetailsCommand);
+        invoker.setShowChangeWeaponCommand(showChangeWeaponCommand);
+        invoker.setShowChangeEquipmentCommand(showChangeEquipmentCommand);
+        invoker.setShowInventoryCommand(showInventoryCommand);
+        invoker.setRollItemsCommand(rollItemsCommand);
     }
 
     public void printMenu() {
         while (true) {
-            System.out.println();
             for (String item : menuItem) {
                 System.out.println(item);
             }
 
             System.out.print("Enter # of choice: ");
-            Scanner scanner = new Scanner(System.in);
-            String choice = scanner.nextLine();
-            LOGGER.log(Level.INFO, MessageFormat.format("Користувач вибрав пункт головного меню {0}", choice));
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                LOGGER.log(Level.INFO, MessageFormat.format("Користувач вибрав пункт головного меню {0}", choice));
 
-            if (getMenuKey(choice, scanner))
-                return;
+                if (getMenuKey(choice)) {
+                    scanner.close();
+                    return;
+                }
+            } else {
+                LOGGER.log(Level.WARNING, "Користувач ввів не числове значення в меню");
+                System.out.println("Wrong input");
+                scanner.next();
+            }
+            System.out.println();
         }
     }
 
-    public boolean getMenuKey(String choice, Scanner scanner) {
+    public boolean getMenuKey(int choice) {
         switch (choice) {
-            case "1":
+            case 1:
                 LOGGER.log(Level.INFO, "Перехід у вивід характеристик лицаря");
-                knight.showStats();
+                invoker.showKnightDetails();
                 LOGGER.log(Level.INFO, "Вихід у головне меню з виводу характеристик лицаря");
                 break;
-            case "2":
+            case 2:
                 LOGGER.log(Level.INFO, "Перехід у вивід, зміну зброї лицаря");
-                inventory.showWeapon(scanner);
+                invoker.showChangeWeapon();
                 LOGGER.log(Level.INFO, "Вихід у головне меню з виводу, зміни зброї лицаря");
                 break;
-            case "3":
+            case 3:
                 LOGGER.log(Level.INFO, "Перехід у перегляд, зміну екіпірування лицаря");
-                inventory.showChangeEquipment(scanner);
+                invoker.showChangeEquipment();
                 LOGGER.log(Level.INFO, "Вихід у головне меню з виводу, зміни  екіпірування лицаря");
                 break;
-            case "4":
+            case 4:
                 LOGGER.log(Level.INFO, "Перехід у перегляд інвентаря");
-                inventory.showInventory();
+                invoker.showInventory();
                 LOGGER.log(Level.INFO, "Вихід у головне меню з інвентаря лицаря");
                 break;
-            case "5":
+            case 5:
                 LOGGER.log(Level.INFO, "Очікується генерація 5-ти предметів");
-                for (int i = 1; i <= 5; i++)
-                    inventory.rollItem();
+                invoker.rollItems();
                 LOGGER.log(Level.INFO, "Згенеровано 5 предметів");
                 break;
-            case "6":
+            case 6:
                 return true;
             default:
                 System.out.println("Невірний символ, відправка повідомлення на емайл..");

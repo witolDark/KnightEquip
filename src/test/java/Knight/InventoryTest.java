@@ -1,11 +1,16 @@
 package Knight;
 
+import Inventory.Boots;
+import Inventory.Cloak;
+import Inventory.Helmet;
+import Inventory.Shoulder;
 import junit.framework.TestCase;
 import org.junit.Assert;
-import Inventory.*;
+
 import java.util.ArrayList;
 
 public class InventoryTest extends TestCase {
+
     public void testSortInventory() {
         Knight knight = new Knight();
         Inventory inventory = new Inventory(knight);

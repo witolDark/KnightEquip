@@ -81,9 +81,10 @@ public class Inventory {
         sortInventory();
     }
 
-    public void showChangeEquipment(Scanner scanner) {
+    public void showChangeEquipment() {
         showEquipment();
 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("[1] Replace Helmet");
         System.out.println("[2] Replace Cloak");
         System.out.println("[3] Replace Shoulder");
@@ -141,13 +142,15 @@ public class Inventory {
         }
     }
 
-    public void showWeapon(Scanner scanner) {
+    public void showChangeWeapon() {
         System.out.println(knight.getWeapon());
         System.out.println("[1] Replace, [Other] Back");
+        Scanner scanner = new Scanner(System.in);
         String choice = scanner.nextLine();
         LOGGER.log(Level.INFO, MessageFormat.format("В методі вибору зброї користувач натиснув {0}", choice));
-        if (choice.equals("1"))
+        if (choice.equals("1")) {
             chooseEquipment(weapons, scanner);
+        }
     }
 
     public <T> void chooseEquipment(ArrayList<T> items, Scanner scanner) {
@@ -156,7 +159,6 @@ public class Inventory {
             LOGGER.log(Level.WARNING, "Список предметів вибраної категорії пустий");
             return;
         }
-
         LOGGER.log(Level.INFO, "Обирається предмет" + items.get(0).getClass());
 
         for (int i = 0; i < items.size(); i++) {
